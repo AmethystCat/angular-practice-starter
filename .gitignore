@@ -1,0 +1,9 @@
+# exclude IDE files 
+.idea
+*.sublime-project
+*.sublime-workspace
+*.project
+
+# node modules
+node_modules
+npm-debug.log
