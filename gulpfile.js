@@ -1,69 +1,65 @@
-var gulp = require('gulp'),
-    source = require('vinyl-source-stream'),
-    lessMap = require('gulp-less-sourcemap'),//less编译(替代gulp-less)并产生sourcemap
-    rename = require('gulp-rename'),
-    del = require('del'),//文件删除
-    bs = require('browser-sync').create(),//静态服务器
-    notify = require('gulp-notify');
+var path = require('path'),
+    gulp = require('gulp'),
+    del = require('del'),
+    seq = require('gulp-sequence'),
+    webpack = require('webpack-stream'),
+    plumber = require('gulp-plumber'),
+    webpackConfig = require('./webpack.config.js'),
+    gulpWebpack = require('gulp-webpack'),
+    bs = require('browser-sync').create();//静态服务器
 
-var SCRIPTENTRIES = './src/entries/**/*.js',
-    SCRIPTS = './src/**/*.jsx';
+var SRC_ENTRY = 'src/modules/page_modules/entry/',
+    NODE_MODULES = 'node_modules',
+    FOLDER = 'temp',
+    TEMPLATE = ['src/modules/**/*.html'],
+    JSFILES = ['src/modules/**/*.js'],
+    LESS = 'src/modules/**/*.less';
 
-var LESS = './assets/less/*.less',
-    CSS = './assets/css/*.css';
-
-var handleError = function(){
-    var args = Array.prototype.slice.call(arguments);
-    notify.onError({
-        title: 'compile error',
-        message: '<%= error.message %>'
-    }).apply(this,args);
-    this.emit('close');
-    this.emit('end');
-};
-
-//清除目录
-gulp.task('clean',function(){
-    del(['tem/']);
+gulp.task('clean', function (cb) {
+    del('temp');
 });
 
-//编译less
-gulp.task('compile-less',function(){
-    console.log('less-compile');
-    return gulp.src(LESS)
-        .pipe(lessMap({
-            sourceMap: {
-                sourceMapRootpath: LESS
-            }
-        }))
-        .on("error", handleError)
-        .pipe(gulp.dest('./assets/css'))
+gulp.task('pack', function(){
+    return gulp.src([SRC_ENTRY + 'page.js'])
+        .pipe(plumber())
+        .pipe(webpack(webpackConfig))
+        .pipe(gulp.dest(FOLDER));
+});
+
+gulp.task('pack-vendor', function(){
+    return gulp.src([
+            NODE_MODULES + '/angular/angular.min.js',
+            NODE_MODULES + '/angular-route/angular-route.min.js'
+        ])
+        .pipe(gulp.dest('temp/libs'));
+});
+
+gulp.task('html', function(){
+    return gulp.src(TEMPLATE)
+        .pipe(gulp.dest(FOLDER));
 });
 
 //编译脚本
-gulp.task('watch',function(){
-    gulp.watch(SCRIPTS, ['compile-script']);
-    gulp.watch(LESS, ['compile-less']);
-
-    gulp.watch(CSS).on('change',function(){
-        console.log('css refresh');
-        bs.reload(CSS);
-    });
-    gulp.watch('./tem/**/*.js').on('change', function() {
+gulp.task('watch', function(){
+    gulp.watch(JSFILES, ['pack']);
+    //gulp.watch(LESS, ['pack']);
+    //gulp.watch(TEMPLATE, ['html']);
+    gulp.watch('temp/**/*.*').on('change', function(event) {
+        console.log('File ' + event.type + ', running tasks...');
         bs.reload();
     });
 });
 
-//TODO 用watchify 来优化browserify打包
-gulp.task('compile-script',function() {
-    var TEM = './tem',
-        ENTRY = './src/entries/';
 
-});
-
-gulp.task('default',[''],function(){
+gulp.task('dev',function(){
     bs.init({
         server:'./'
     });
-    gulp.start('watch');
+    gulp.run('watch');
 });
+
+//gulp.task('deploy',[''],function(){
+//
+//});
+
+gulp.task('default', ['clean', 'html', 'pack', 'pack-vendor']);

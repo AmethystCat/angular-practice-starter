@@ -13,12 +13,16 @@
     "angular-route": "^1.5.3",
     "browser-sync": "^2.12.1",
     "css-loader": "^0.23.1",
+    "del": "^2.2.0",
     "gulp": "^3.9.1",
     "gulp-plumber": "^1.1.0",
+    "gulp-sequence": "^0.4.5",
     "gulp-webpack": "^1.5.0",
+    "less": "^2.6.1",
     "less-loader": "^2.2.3",
     "style-loader": "^0.13.1",
     "vinyl-source-stream": "^1.1.0",
-    "webpack": "^1.12.15"
+    "webpack": "^1.12.15",
+    "webpack-stream": "^3.1.0"
   }
 }
