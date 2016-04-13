@@ -16,7 +16,7 @@ var SRC_ENTRY = 'src/modules/page_modules/entry/',
     LESS = 'src/modules/**/*.less';
 
 gulp.task('clean', function (cb) {
-    del('temp');
+    return del('temp', cb);
 });
 
 gulp.task('pack', function(){
@@ -31,7 +31,7 @@ gulp.task('pack-vendor', function(){
             NODE_MODULES + '/angular/angular.min.js',
             NODE_MODULES + '/angular-route/angular-route.min.js'
         ])
-        .pipe(gulp.dest('temp/libs'));
+        .pipe(gulp.dest(FOLDER + '/libs'));
 });
 
 gulp.task('html', function(){
@@ -39,13 +39,19 @@ gulp.task('html', function(){
         .pipe(gulp.dest(FOLDER));
 });
 
+gulp.task('reload', function(){
+    bs.reload();
+});
+
+gulp.task('html-watch', seq('html', 'reload'));
+
 //编译脚本
-gulp.task('watch', function(){
+gulp.task('watch', ['default'], function(){
     gulp.watch(JSFILES, ['pack']);
     //gulp.watch(LESS, ['pack']);
-    //gulp.watch(TEMPLATE, ['html']);
-    gulp.watch('temp/**/*.*').on('change', function(event) {
-        console.log('File ' + event.type + ', running tasks...');
+    gulp.watch(TEMPLATE, ['html-watch']);
+    gulp.watch('temp/**/*.js').on('change', function(event) {
+        console.log('File ' + event.path + 'changed...');
         bs.reload();
     });
 });
@@ -62,4 +68,4 @@ gulp.task('dev',function(){
 //
 //});
 
-gulp.task('default', ['clean', 'html', 'pack', 'pack-vendor']);
+gulp.task('default', seq('clean', 'html', 'pack', 'pack-vendor'));
