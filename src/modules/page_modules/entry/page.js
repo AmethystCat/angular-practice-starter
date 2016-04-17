@@ -1,5 +1,8 @@
 require('./page.less');
-var app = angular.module('app',[]);
-function test () {
-    console.log('tast');
-}
+require('../../../components/entry/main.js');
+require('../car_management/controller.js');
+
+var app = angular.module('app', [
+	'app.components',
+	'car'
+]);

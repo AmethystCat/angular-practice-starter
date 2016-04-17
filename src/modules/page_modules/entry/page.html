@@ -1,16 +1,7 @@
-<!DOCTYPE html>
-<html lang="en" ng-app="app">
-<head>
-    <meta charset="UTF-8">
-    <title>index</title>
-    <!--<script src="/node_modules/angular/angular.js"></script>-->
-    <!--<script src="/node_modules/angular-route/angular-route.js"></script>-->
-</head>
-<body>
-<div id="app">
-    <div>hello HCqweasd</div>
+<div>
+    <div class="groups" ng-include="'page_modules/groups/template.html'"></div>
+    <div>
+        <div class="nav" ng-include="'common/nav.html'"></div>
+        <div class="car_management" ng-include="'page_modules/car_management/template.html'"></div>
+    </div>
 </div>
-</body>
-<script src="vendors.js"></script>
-<script src="bundle.js"></script>
-</html>

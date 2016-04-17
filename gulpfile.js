@@ -13,10 +13,16 @@ var SRC_ENTRY = 'src/modules/page_modules/entry/',
     FOLDER = 'temp',
     TEMPLATE = ['src/modules/**/*.html'],
     JSFILES = ['src/modules/**/*.js'],
-    LESS = 'src/modules/**/*.less';
+    LESS = 'src/modules/**/*.less',
+
+    temphtmls = 'temp/**/*.html';
 
 gulp.task('clean', function (cb) {
     return del('temp', cb);
+});
+
+gulp.task('cleanH', function (cb) {
+    return del(temphtmls, cb);
 });
 
 gulp.task('pack', function(){
@@ -43,7 +49,10 @@ gulp.task('reload', function(){
     bs.reload();
 });
 
-gulp.task('html-watch', seq('html', 'reload'));
+gulp.task('html-watch', seq('cleanH','html', 'reload'));
+gulp.task('html-watch', function(cb){
+    seq('cleanH','html', 'reload')(cb);
+});
 
 //编译脚本
 gulp.task('watch', ['default'], function(){
