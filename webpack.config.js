@@ -29,6 +29,10 @@ var config = {
                 test:/\.css$/,
                 loaders:['style-loader','css-loader?sourceMap'],
             },
+            {
+                test:/\.css$/,
+                loaders:['style-loader','css-loader?sourceMap'],
+            },
         ]
     },
     devtool: 'eval'

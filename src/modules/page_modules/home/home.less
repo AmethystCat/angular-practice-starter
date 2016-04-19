@@ -1,0 +1,29 @@
+@leftW: 300px;
+.section-container {
+  position: relative;
+}
+.section-groups {
+  position: relative;
+  float: left;
+  width: @leftW;
+  margin-right: -@leftW;
+  min-height: @leftW * 2.5;
+  background: darken(@primary, 20%);
+}
+.section-main {
+  float: left;
+  border-left: @leftW + 10px solid @primary;
+  width: 100%;
+  background: darken(@primary, 20%);
+
+  .nav-tab {
+    ul {
+      list-style: none;
+      padding: 0;
+
+      li {
+        float: left;
+      }
+    }
+  }
+}
