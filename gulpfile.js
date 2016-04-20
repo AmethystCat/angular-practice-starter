@@ -35,7 +35,7 @@ gulp.task('pack-bundle', function(){
 gulp.task('pack-lib-js', function () {
     return gulp.src([
             NODE_MODULES + '/angular/angular.min.js',
-            NODE_MODULES + '/angular-route/angular-route.min.js'
+            NODE_MODULES + '/angular-ui-router/release/angular-ui-router.min.js'
         ])
         .pipe(gulp.dest(FOLDER + '/libs/js'));
 });
