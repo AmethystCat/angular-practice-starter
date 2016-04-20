@@ -17,42 +17,75 @@ var app = angular.module('app', [
 	'logistics',
 	'path',
 	'system',
-	'ngRoute'
+	'ui.router'
 ]);
 
-app.config(['$routeProvider', function($routeProvider) {
-	$routeProvider
-		.when('/car', {
+app.config( function($stateProvider, $urlRouterProvider) {
+    // 如果未匹配到router中设置的url，默认重定向到'/car'
+	$urlRouterProvider.otherwise("/car");
+	$stateProvider
+		.state('car', {
+			url: '/car',
 			controller: 'carController',
 			templateUrl: 'page_modules/car_management/main.html'
 		})
-		.when('/car/distribution', {
-			controller: 'distributionController',
-			templateUrl: 'page_modules/car_management/main.html'
-		})
-		.when('/drive', {
+            .state('car.distribution', {
+                url: '/distribution',
+                controller: 'distributionController',
+                templateUrl: 'page_modules/car_management/distribution/main.html'
+            })
+            .state('car.useage-rate', {
+                url: '/useage-rate',
+                controller: 'useageRateController',
+                templateUrl: 'page_modules/car_management/useage-rate/main.html'
+            })
+            .state('car.fault', {
+                url: '/fault',
+                controller: 'faultController',
+                templateUrl: 'page_modules/car_management/fault/main.html'
+            })
+            .state('car.vehicle-condition', {
+                url: '/vehicle-condition',
+                controller: 'vehicleConditionController',
+                templateUrl: 'page_modules/car_management/vehicle-condition/main.html'
+            })
+            .state('car.path', {
+                url: '/path',
+                controller: 'pathController',
+                templateUrl: 'page_modules/car_management/path/main.html'
+            })
+		.state('drive', {
+			url: '/drive',
 			controller: 'driveController',
 			templateUrl: 'page_modules/drive_management/main.html'
 		})
-		.when('/credit', {
+		.state('credit', {
+            url: '/credit',
 			controller: 'creditController',
 			templateUrl: 'page_modules/credit_management/main.html'
 		})
-		.when('/fuel', {
+		.state('fuel', {
+            url: '/fuel',
 			controller: 'fuelController',
 			templateUrl: 'page_modules/fuel_management/main.html'
 		})
-		.when('/logistics', {
+		.state('logistics', {
+            url: '/logistics',
 			controller: 'logisticsController',
 			templateUrl: 'page_modules/logistics_management/main.html'
 		})
-		.when('/path', {
+		.state('path', {
+            url: '/path',
 			controller: 'pathController',
 			templateUrl: 'page_modules/path_management/main.html'
 		})
-		.when('/system', {
+		.state('system', {
+            url: '/system',
 			controller: 'systemController',
 			templateUrl: 'page_modules/system_settings/main.html'
 		})
-		.otherwise({redirectTo: '/'});
-}]);
+});
+
+app.controller('bdController', function($scope, $state){
+    $state.go("car");
+});

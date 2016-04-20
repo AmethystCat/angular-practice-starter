@@ -1,11 +1,12 @@
-<div class="section-car-management">
-    <div class="sub-nav">
+<div class="section-sub section-car-management">
+    <div class="sub-nav cf">
         <ul>
-            <li><a href="/car/distribution">车辆分布</a></li>
-            <li><a href="/car/useage-rate">使用率</a></li>
-            <li><a href="/car/fault">故障查询</a></li>
-            <li><a href="/car/vehicle-condition">车况查询</a></li>
-            <li><a href="/car/path">行驶轨迹</a></li>
+            <li><a ui-sref="car.distribution"      ui-sref-active="btn-info" class="btn btn-default">车辆分布</a></li>
+            <li><a ui-sref="car.useage-rate"       ui-sref-active="btn-info" class="btn btn-default">使用率</a></li>
+            <li><a ui-sref="car.fault"             ui-sref-active="btn-info" class="btn btn-default">故障查询</a></li>
+            <li><a ui-sref="car.vehicle-condition" ui-sref-active="btn-info" class="btn btn-default">车况查询</a></li>
+            <li><a ui-sref="car.path"              ui-sref-active="btn-info" class="btn btn-default">行驶轨迹</a></li>
         </ul>
     </div>
+    <div class="section-sub-content" ui-view></div>
 </div>
